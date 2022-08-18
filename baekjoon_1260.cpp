@@ -5,60 +5,45 @@
 #include <iostream>
 #include <list>
 #include <algorithm>
-#include <stack>
+// #include <stack>
 #include <queue>
 
 using namespace std;
 
-void DFS(list<int> li[] , int N , int V){
-    bool check[N] = { false };
+bool check[1000] = { false };
 
-    stack<int> s;
-    list<int> :: reverse_iterator iter;
-    
-    s.push(V);
+void DFS(list<int> li[] , int N , int V ){
 
-    while(!s.empty()){
-        
-        V = s.top();
-        s.pop();
+    check[V-1] = true;
+    cout << V << " ";
 
-
-        if(check[V - 1] == true) continue;
-
-        cout << V << ' ';
-        check[V - 1] = true;
-
-
-        for(iter = li[V - 1].rbegin() ; iter != li[V-1].rend() ; iter++) s.push(*iter);
-         
+    for(auto x : li[V-1]){
+        if(check[x-1] == false) DFS(li , N , x );
     }
-    cout << endl;
-
+    
 }
-
 void BFS(list<int> li[], int N , int V){
-
-    bool check[N] = { false };
 
     queue<int> q;
 
     q.push(V);
+    check[V-1] = true;
+    cout << V << " ";
 
     while(!q.empty()){
 
         V = q.front();
         q.pop();
 
-        if( check[V - 1] == true) continue;
-
-        cout << V << ' ';
-        check[V - 1] = true;
-
-        for(auto x : li[V-1]) q.push(x);
+        for(auto x : li[V-1]){
+            if(check[x-1] == false){
+                q.push(x);
+                cout << x << " ";
+                check[x-1] = true;
+            }
+        } 
 
     }
-
 
 }
 
@@ -78,7 +63,6 @@ int main(int argc , char** argv){
     cin >> N >> M >> V;
 
     pair<int,int> temp[M];
-
 
     list<int> li[N]; // adj list
 
@@ -109,8 +93,11 @@ int main(int argc , char** argv){
 */
     // DFS
     
-    DFS(li , N , V);
+    DFS(li , N , V );
 
+    cout << "\n";
+
+    for(int i = 0 ; i < N ; ++i) check[i] = false;
 
     // BFS
     BFS(li , N , V);
