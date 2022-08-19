@@ -4,7 +4,11 @@
 
 #include <iostream>
 #include <vector>
+
 using namespace std;
+
+
+// DFS recursion
 
 void DFS(vector<vector<bool>> &arr ,vector<bool> &check ,int i){
     check[i-1] = true;
@@ -17,29 +21,29 @@ int main(int argc , char** argv){
 
     int T , N , temp;
     
-
     cin >> T;
 
     while(T--){
-        int cnt = 0;
+
+        int cnt = 0;        // answer
 
         cin >> N;
 
-        vector<vector<bool>> arr(N , vector<bool>(N , false));
-        vector<bool> check ( N , false);
-        // bool arr [N][N] = { false };
-        // bool check[N] = { false };
+        vector<vector<bool>> arr(N , vector<bool>(N , false));      // adj matrix
+        vector<bool> check ( N , false );                           // check list
         
         for(int i = 1 ; i <= N ; ++i){
+
             cin >> temp;
 
             arr[i-1][temp - 1] = true;
             arr[temp-1][i-1] = true;
+
         }
 
         for(int i = 1 ; i <= N ; ++i){
             if(check[i-1] == false){
-                DFS(arr , check, i );
+                DFS(arr , check, i );       // DFS or BFS
                 cnt++;
             }
         }
